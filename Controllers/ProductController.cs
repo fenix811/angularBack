@@ -16,18 +16,18 @@ namespace back.Controllers
         {
             _repository = repository;
         }
-        // GET api/values
+
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
-            var result = _repository.GetProducts();
+            var result = await _repository.GetProducts();
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "getProduct")]
         public async Task<IActionResult> GetProduct(int id)
         {
-            var result = _repository.GetProduct(id);
+            var result = await _repository.GetProduct(id);
             return Ok(result);
         }
 

@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace back.Models
 {
-    public class Product
+    public class Company
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public int CompanyId { get; set; }
+        public string Address { get; set; }
     }
 }

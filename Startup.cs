@@ -27,17 +27,29 @@ namespace back
         {
             services.AddDbContext<ProductContext>(opt =>
                opt.UseSqlServer(Configuration.GetConnectionString("TestDatabase")));
-        
-        services.AddMvc();
+
+            services.AddMvc();
             services.AddSingleton<IProductRepository, ProductRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var origins = Configuration.GetValue<string>("Cors:AllowedOrigins")?.Split(',') ?? new string[0];
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+
+            if (env.IsDevelopment() && !origins.Any())
+            {
+                app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin());
+            }
+            else
+            {
+                app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins));
             }
 
             app.UseMvc();

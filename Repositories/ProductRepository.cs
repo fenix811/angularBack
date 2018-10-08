@@ -15,17 +15,20 @@ namespace back.Repositories
         public void DeleteProduct(int id)
         {
         }
-        public Product GetProduct(int id)
+        public Task<Product> GetProduct(int id)
         {
-            return new Product() { Id = 1, Name = "Product1", Description = "Description1" };
+            var result = new Product() { Id = 4, Name = "Product4", Description = "Description4" };
+            return Task.Run(() => result);
         }
-        public IList<Product> GetProducts()
+        public Task<List<Product>> GetProducts()
         {
             var result = new List<Product>();
-            result.Add(new Product() { Id = 1, Name = "Product1", Description = "Description1" });
-            result.Add(new Product() { Id = 2, Name = "Product2", Description = "Description2" });
-            result.Add(new Product() { Id = 3, Name = "Product3", Description = "Description3" });
-            return result;
+            result.Add(new Product() { Id = 1, Name = "Product1", Description = "Description1", CompanyId = 1 });
+            result.Add(new Product() { Id = 2, Name = "Product2", Description = "Description2", CompanyId = 1 });
+            result.Add(new Product() { Id = 3, Name = "Product3", Description = "Description3", CompanyId = 1 });
+            var qwe = Task.Run(() => result);
+
+            return qwe;
         }
 
         public void UpdateProduct(Product product)
