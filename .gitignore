@@ -21,3 +21,14 @@ back.csproj.nuget.cache
 back.csproj.nuget.g.props
 back.csproj.nuget.g.targets
 project.assets.json
+/back/obj/Docker/CanonicalServiceName.cache
+/obj/Debug/netcoreapp2.0/back.assets.cache
+/obj/Debug/netcoreapp2.0/back.csprojResolveAssemblyReference.cache
+/obj/Debug/netcoreapp2.1/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+/obj/Debug/netcoreapp2.1/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+/obj/Debug/netcoreapp2.1/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+/obj/Debug/netcoreapp2.1/back.RazorAssemblyInfo.cache
+/obj/Debug/netcoreapp2.1/back.RazorAssemblyInfo.cs
+/obj/Debug/netcoreapp2.1/back.RazorTargetAssemblyInfo.cache
+/obj/Debug/netcoreapp2.1/back.assets.cache
+/obj/Debug/netcoreapp2.1/back.csprojResolveAssemblyReference.cache

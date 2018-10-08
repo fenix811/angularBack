@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using back.Models;
 using back.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace back.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class CompanyController : Controller
     {

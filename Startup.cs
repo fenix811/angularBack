@@ -10,6 +10,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using back.Repositories;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 
 namespace back
 {
@@ -27,6 +30,22 @@ namespace back
         {
             services.AddDbContext<ProductContext>(opt =>
                opt.UseSqlServer(Configuration.GetConnectionString("TestDatabase")));
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
+                        ValidIssuer = "http://localhost:61885",
+                        ValidAudience = "http://localhost:61885",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
+                    };
+                });
 
             services.AddMvc();
             services.AddSingleton<IProductRepository, ProductRepository>();
@@ -51,7 +70,7 @@ namespace back
             {
                 app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins));
             }
-
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
