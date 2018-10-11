@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace back.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     public class ProductController : Controller
     {
         private IProductRepository _repository;
@@ -16,7 +16,7 @@ namespace back.Controllers
         {
             _repository = repository;
         }
-
+        [Route("api/product/getproducts")]
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
@@ -24,24 +24,28 @@ namespace back.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}", Name = "getProduct")]
+        [Route("api/product/getproduct")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {
             var result = await _repository.GetProduct(id);
             return Ok(result);
         }
 
+        [Route("api/product/AddProduct")]
         [HttpPost]
         public void AddProduct(Product product)
         {
         }
 
+        [Route("api/product/updateproduct")]
         [HttpPut("{id}")]
         public void UpdateProduct(Product product)
         {
             _repository.UpdateProduct(product);
         }
 
+        [Route("api/product/deleteproduct")]
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

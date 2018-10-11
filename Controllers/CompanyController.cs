@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace back.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
     public class CompanyController : Controller
     {
         private ICompanyRepository _repository;
@@ -19,6 +18,7 @@ namespace back.Controllers
             _repository = repository;
         }
 
+        [Route("api/company/GetCompanies")]
         [HttpGet]
         public async Task<IActionResult> GetCompanies()
         {
