@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using back.Models;
 using back.Repositories;
@@ -22,6 +23,13 @@ namespace back.Controllers
         {
             var result = await _repository.GetProducts();
             return Ok(result);
+        }
+        [Route("api/product/getcompanyproducts")]
+        [HttpGet]
+        public async Task<IActionResult> GetCompanyProducts(int companyId)
+        {
+            var result = await _repository.GetProducts();
+            return Ok(result.FindAll(a => a.CompanyId == companyId));
         }
 
         [Route("api/product/getproduct")]
@@ -50,6 +58,21 @@ namespace back.Controllers
         public void Delete(int id)
         {
             _repository.DeleteProduct(id);
+        }
+
+        [Route("api/product/test1")]
+        [HttpGet]
+        public string test1()
+        {
+            Thread.Sleep(5000);
+            return "test1";
+        }
+        [Route("api/product/test2")]
+        [HttpGet]
+        public string test2()
+        {
+            Thread.Sleep(5000);
+            return "test2";
         }
     }
 }
