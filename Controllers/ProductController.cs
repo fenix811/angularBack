@@ -24,7 +24,17 @@ namespace back.Controllers
             var result = await _repository.GetProducts();
             return Ok(result);
         }
-        [Route("api/product/getcompanyproducts")]
+        
+        [Route("api/product/getproductsbyname/{searchText}")]
+        [HttpGet]
+        public async Task<IActionResult> getproductsbyname(string searchText)
+        {
+            var result = await _repository.GetProducts();
+            var r = result.FindAll(a => a.Name.Contains(searchText));
+            return Ok(r);
+        }
+
+        [Route("api/product/getcompanyproducts/{companyId}")]
         [HttpGet]
         public async Task<IActionResult> GetCompanyProducts(int companyId)
         {
@@ -60,13 +70,6 @@ namespace back.Controllers
             _repository.DeleteProduct(id);
         }
 
-        [Route("api/product/test1")]
-        [HttpGet]
-        public string test1()
-        {
-            Thread.Sleep(5000);
-            return "test1";
-        }
         [Route("api/product/test2")]
         [HttpGet]
         public string test2()

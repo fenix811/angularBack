@@ -11,17 +11,11 @@ namespace back
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         public ProductContext(DbContextOptions<ProductContext> options) : base(options)
         {
-            //var cnt = new DbContextOptions();
-            //string conString = Microsoft.Extensions.Configuration
-            //   .ConfigurationExtensions.GetConnectionString(this.Configuration, "DefaultConnection");
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(Configuration.ConnectionStrings["BloggingDatabase"].ConnectionString);
-        //}
 
     }
 }
