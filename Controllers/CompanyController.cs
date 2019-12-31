@@ -22,11 +22,7 @@ namespace back.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCompanies()
         {
-            //var result = await _repository.GetCompanies();
-            var result = new List<Company>();
-            result.Add(new Company() { Id = 1, Name = "Company 1", Address = "address 1" });
-            result.Add(new Company() { Id = 2, Name = "Company 2", Address = "address 2" });
-            result.Add(new Company() { Id = 3, Name = "Company 3", Address = "address 3" });
+            var result = await _repository.GetCompanies();
             return Ok(result);
         }
 
