@@ -22,10 +22,10 @@ namespace back.Controllers
             result.Add(DateTime.Today);
             result.Add(DateTime.Today.AddDays(-1));
             
-            var t = Task.Run(() => result);
-            await t;
+            //var t = Task.Run(() => result);
+            //await t;
 
-            return Ok(t);
+            return Ok(result);
 
         }
 
