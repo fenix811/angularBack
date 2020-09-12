@@ -11,8 +11,10 @@ using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using back.Repositories;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace back
 {
@@ -31,6 +33,7 @@ namespace back
             services.AddDbContext<ProductContext>(opt =>
                opt.UseSqlServer(Configuration.GetConnectionString("TestDatabase")));
 
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -47,14 +50,13 @@ namespace back
                     };
                 });
 
-            services.AddMvc();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var origins = Configuration.GetValue<string>("Cors:AllowedOrigins")?.Split(',') ?? new string[0];
 
@@ -72,7 +74,7 @@ namespace back
                 app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins));
             }
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

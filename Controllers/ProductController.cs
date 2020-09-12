@@ -52,8 +52,9 @@ namespace back.Controllers
 
         [Route("api/product/AddProduct")]
         [HttpPost]
-        public void AddProduct(Product product)
+        public async void AddProduct([FromBody]Product product)
         {
+            await _repository.AddProduct(product);
         }
 
         [Route("api/product/updateproduct")]

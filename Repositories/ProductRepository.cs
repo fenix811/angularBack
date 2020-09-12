@@ -16,8 +16,10 @@ namespace back.Repositories
         {
             _ctx = ctx;
         }
-        public void AddProduct(Product product)
+        public async Task AddProduct(Product product)
         {
+            _ctx.Products.Add(product);
+            await _ctx.SaveChangesAsync();
         }
 
         public void DeleteProduct(int id)
@@ -30,12 +32,6 @@ namespace back.Repositories
         }
         public Task<List<Product>> GetProducts()
         {
-            //var result = new List<Product>();
-            //result.Add(new Product() { Id = 1, Name = "Product1", Description = "Description1", CompanyId = 1 });
-            //result.Add(new Product() { Id = 2, Name = "Product2", Description = "Description2", CompanyId = 1 });
-            //result.Add(new Product() { Id = 3, Name = "Product3", Description = "Description3", CompanyId = 1 });
-            //var qwe = Task.Run(() => result);
-
             return _ctx.Products.ToListAsync();
         }
 

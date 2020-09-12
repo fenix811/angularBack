@@ -8,7 +8,7 @@ namespace back.Repositories
     {
         Task<List<Product>> GetProducts();
         Task<Product> GetProduct(int id);
-        void AddProduct(Product product);
+        Task AddProduct(Product product);
         void UpdateProduct(Product product);
         void DeleteProduct(int id);
     }
