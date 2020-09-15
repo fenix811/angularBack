@@ -15,6 +15,7 @@ using System.Text;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
 
 namespace back
 {
@@ -27,12 +28,22 @@ namespace back
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRazorPages();
+
             services.AddDbContext<ProductContext>(opt =>
                opt.UseSqlServer(Configuration.GetConnectionString("TestDatabase")));
 
+            services.AddControllersWithViews();
+            services.AddSwaggerGen(c =>
+            {
+                //c.SwaggerDoc("v1", new OpenApiInfo { Title = "Zeux API", Version = "v1" });
+                //c.CustomSchemaIds(x => x.FullName);
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+            });
+
+            services.AddCors();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -50,14 +61,16 @@ namespace back
                     };
                 });
 
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
+
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<ICompanyRepository, CompanyRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             var origins = Configuration.GetValue<string>("Cors:AllowedOrigins")?.Split(',') ?? new string[0];
 
             if (env.IsDevelopment())
@@ -67,14 +80,30 @@ namespace back
 
             if (env.IsDevelopment() && !origins.Any())
             {
-                app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin());
+                app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             }
             else
             {
                 app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(origins));
             }
-            app.UseAuthentication();
-            app.UseEndpoints(endpoints => endpoints.MapControllers());
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
         }
+
+
     }
 }

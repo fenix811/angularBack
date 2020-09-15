@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace back.Controllers
 {
-    //[Route("api/[controller]")]
+    [Route("api/[controller]")]
     public class ProductController : Controller
     {
         private IProductRepository _repository;
@@ -17,15 +17,25 @@ namespace back.Controllers
         {
             _repository = repository;
         }
-        [Route("api/product/getproducts")]
+
+        [Route("getproducts")]
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
             var result = await _repository.GetProducts();
             return Ok(result);
         }
-        
-        [Route("api/product/getproductsbyname/{searchText}")]
+
+        [Route("AddProduct")]
+        [HttpPost]
+        public async Task<IActionResult> AddProduct([FromBody]Product product)
+        {
+            await _repository.AddProduct(product);
+            return Ok();
+        }
+
+
+        [Route("getproductsbyname/{searchText}")]
         [HttpGet]
         public async Task<IActionResult> getproductsbyname(string searchText)
         {
@@ -34,7 +44,7 @@ namespace back.Controllers
             return Ok(r);
         }
 
-        [Route("api/product/getcompanyproducts/{companyId}")]
+        [Route("getcompanyproducts/{companyId}")]
         [HttpGet]
         public async Task<IActionResult> GetCompanyProducts(int companyId)
         {
@@ -42,7 +52,7 @@ namespace back.Controllers
             return Ok(result.FindAll(a => a.CompanyId == companyId));
         }
 
-        [Route("api/product/getproduct")]
+        [Route("getproduct")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {
@@ -50,33 +60,28 @@ namespace back.Controllers
             return Ok(result);
         }
 
-        [Route("api/product/AddProduct")]
-        [HttpPost]
-        public async void AddProduct([FromBody]Product product)
-        {
-            await _repository.AddProduct(product);
-        }
 
-        [Route("api/product/updateproduct")]
+        [Route("updateproduct")]
         [HttpPut("{id}")]
         public void UpdateProduct(Product product)
         {
             _repository.UpdateProduct(product);
         }
 
-        [Route("api/product/deleteproduct")]
+        [Route("delete")]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void DeleteProduct(int id)
         {
             _repository.DeleteProduct(id);
         }
 
-        [Route("api/product/test2")]
-        [HttpGet]
-        public string test2()
+        [Route("test")]
+        [HttpPost]
+        public async void Test([FromBody]Product product)
         {
-            Thread.Sleep(5000);
-            return "test2";
+            await _repository.AddProduct(new Product { Name="qwe", CompanyId=1});
         }
+
+
     }
 }

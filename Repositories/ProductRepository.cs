@@ -18,6 +18,7 @@ namespace back.Repositories
         }
         public async Task AddProduct(Product product)
         {
+            product.CompanyId = 1; //TODO 
             _ctx.Products.Add(product);
             await _ctx.SaveChangesAsync();
         }
