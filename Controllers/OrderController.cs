@@ -16,13 +16,20 @@ namespace back.Controllers
         {
             _repository = repository;
         }
-        [Route("api/product/getorders")]
+        [Route("api/order/getorders")]
         [HttpGet]
         public async Task<IActionResult> GetOrders()
         {
             var result = await _repository.GetOrders();
             return Ok(result);
         }
-        
+
+        [Route("api/add/addorder")]
+        [HttpPost]
+        public async Task<IActionResult> AddOrder(Order order)
+        {
+            await _repository.AddOrder(order);
+            return Ok();
+        }
     }
 }

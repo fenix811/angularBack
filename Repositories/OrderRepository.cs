@@ -15,14 +15,15 @@ namespace back.Repositories
         {
             _ctx = context;
         }
+
+        public async Task AddOrder(Order order)
+        {
+            _ctx.Orders.Add(order);
+            await _ctx.SaveChangesAsync();
+        }
+
         public Task<List<Order>> GetOrders()
         {
-            //var result = new List<Order>();
-            //result.Add(new Product() { Id = 1, Name = "Product1", Description = "Description1", CompanyId = 1 });
-            //result.Add(new Product() { Id = 2, Name = "Product2", Description = "Description2", CompanyId = 1 });
-            //result.Add(new Product() { Id = 3, Name = "Product3", Description = "Description3", CompanyId = 1 });
-            //var qwe = Task.Run(() => result);
-
             return _ctx.Orders.ToListAsync();
         }
 

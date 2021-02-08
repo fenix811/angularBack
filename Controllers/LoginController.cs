@@ -14,6 +14,7 @@ namespace back.Controllers
     [Route("api/[controller]")]
     public class LoginController : Controller
     {
+        [Route("login")]
         [HttpPost]
         public IActionResult Login([FromBody]LoginModel user)
         {
