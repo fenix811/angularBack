@@ -43,6 +43,12 @@ namespace back
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
 
+            //services.AddDistributedRedisCache(option =>
+            //{
+            //    option.Configuration = "127.0.0.1";
+            //    option.InstanceName = "master";
+            //});
+
             services.AddCors();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -60,7 +66,7 @@ namespace back
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
                     };
                 });
-
+            //services.AddMemoryCache();
 
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<ICompanyRepository, CompanyRepository>();
@@ -73,7 +79,7 @@ namespace back
 
             var origins = Configuration.GetValue<string>("Cors:AllowedOrigins")?.Split(',') ?? new string[0];
 
-            if (env.IsDevelopment())
+            if (env.IsDevelopment())    
             {
                 app.UseDeveloperExceptionPage();
             }
